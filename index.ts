@@ -5,7 +5,6 @@ interface Iprezzo
     getInfo():string;
 }
 
-
 abstract class Libro implements Iprezzo
 {
     //prop --> dati
@@ -68,60 +67,54 @@ class Dvd implements Iprezzo
     }  
 }
 
-let archivioCartaceo : LibroCartaceo[];
-let archivioDigitale : LibroDigitale[];
-
-let archivio : Iprezzo[] = [];
-archivio.push( new LibroCartaceo('La concessione del telefono',10,75) ); 
-archivio.push( new LibroDigitale('Js advanced',23,500,formatoLibroDigitale.Pdf) );
-archivio.push( new Dvd('Avatar',1));
-
-
-
-function AumentoPercentuale(libri:Iprezzo[], aumento:number)
+class Libreria
 {
-    for(let libro of libri)
+    private _dati : Libro[] = [];
+    
+    add(l:Libro) { this._dati.push(l);}
+
+    get count() { return this._dati.length; }
+
+    aumentoPercentuale(aumento:number):void
     {
-        libro.prezzo *= aumento;
+        for(let d of this._dati)
+        {
+            d.prezzo *= aumento;
+        }
     }
 }
 
-AumentoPercentuale(archivio,1.1);
-archivio.forEach( e => {
-    console.log(e.getInfo());
-});
-
-
-
-
-
-
-
-
-
-
-//let l1 : Libro = new Libro('I promessi sposi',10,'Mondadori');
-//let l2 = new Libro('La divina commedia',12);
-//let l3 : LibroCartaceo = new LibroCartaceo('Ritratto in seppia',14,123);
-
-
-
-
-
-
-/*
-let l3 : Libro = l1;
-l3.prezzo = 20;
-console.log(l1.prezzo);
-
-
-
-class MathUtils
+class Videoteca
 {
-    static readonly pi : number = 3.1415;
+    private _dati : Dvd[] =[];
+    add(v:Dvd) { this._dati.push(v); }
+    get count() { return this._dati.length;}
+    
+    aumentoPercentuale(aumento:number):void
+    {
+        for(let d of this._dati)
+        {
+            d.prezzo *= aumento;
+        }
+    }
 }
 
-let raggio = 10;
+class Archivio<T extends Iprezzo>
+{
+    private _dati : T[] =[];
+    add(v:T) { this._dati.push(v); }
+    get count() { return this._dati.length;}
+    
+    get first() : T { return this._dati[0];}
+    aumentoPercentuale(aumento:number):void
+    {
+        for(let d of this._dati)
+        {
+            d.prezzo *= aumento;
+        }
+    }
+}
 
-//let m = new MathUtils();
-let area = raggio*raggio*MathUtils.pi;*/
+let a1 = new Archivio<Libro>();
+let a2 = new Archivio<Dvd>();
+let x = a2.first;
