@@ -1,3 +1,4 @@
+//Modifica fatta da Github
 interface Iprezzo
 {
     prezzo:number;
